@@ -24,7 +24,9 @@ SOFTWARE.
 
 ## Prof Rossetti Student License
 
-Students, feel free to use this application as the basis for any work product you submit, under either one of the following two conditions:
+Students, feel free to use this code repository as the basis for any work product you submit, as long as you either:
 
-  1. You can "fork" this repository from the GitHub online interface and further-develop your forked repository.
-  2. You can reference code from this repository in your own submission as long as you provide an attribution link back to the main repository (e.g. "adapted from source: https://github.com/prof-rossetti/inventory-mgmt-app-py").
+  + a) officially "fork" this repository from the GitHub online interface, or
+  + b) include an attribution link back to this main repository (e.g. "adapted from source: https://github.com/prof-rossetti/inventory-mgmt-app-py").
+
+Thanks!
