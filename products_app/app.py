@@ -8,19 +8,19 @@ import os
 def menu(username="@prof-rossetti", products_count=100):
     # this is a multi-line string, also using preceding `f` for string interpolation
     menu = f"""
-    -----------------------------------
-    INVENTORY MANAGEMENT APPLICATION
-    -----------------------------------
-    Welcome {username}!
-    There are {products_count} products in the database.
-        operation | description
-        --------- | ------------------
-        'List'    | Display a list of product identifiers and names.
-        'Show'    | Show information about a product.
-        'Create'  | Add a new product.
-        'Update'  | Edit an existing product.
-        'Destroy' | Delete an existing product.
-    Please select an operation: """ # end of multi- line string. also using string interpolation
+-----------------------------------
+INVENTORY MANAGEMENT APPLICATION
+-----------------------------------
+Welcome {username}!
+There are {products_count} products in the database.
+    operation | description
+    --------- | ------------------
+    'List'    | Display a list of product identifiers and names.
+    'Show'    | Show information about a product.
+    'Create'  | Add a new product.
+    'Update'  | Edit an existing product.
+    'Destroy' | Delete an existing product.
+Please select an operation: """ # end of multi- line string. also using string interpolation
     return menu
 
 #
@@ -55,8 +55,13 @@ def reset_products_file(filename="products.csv", from_filename="products_default
 # CRUD OPERATIONS
 #
 
-def list_products():
-    print("LISTING PRODUCTS") #TODO: list products
+# expecting a list of product dictionaries
+def list_products(products):
+    print("-----------------------------------")
+    print(f"LISTING {len(products)} PRODUCTS:")
+    print("-----------------------------------")
+    for product in products:
+        print(" #" + str(product["id"]) + ": " + product["name"])
 
 def show_product():
     print("SHOWING A PRODUCT") #TODO: show a given product
@@ -85,7 +90,7 @@ def run():
     # Then, handle selected operation: "List", "Show", "Create", "Update", "Destroy" or "Reset"...
     operation = operation.title() # normalize capitalization for more user-friendly comparisons, enables "LIST" and "list" and "List" to all work
     if operation == "List":
-        list_products()
+        list_products(products)
     elif operation == "Show":
         show_product()
     elif operation == "Create":
