@@ -102,7 +102,7 @@ def show_product(product):
 
 def create_product(new_product, all_products):
     print("-----------------------------------")
-    print("CREATING A NEW PRODUCT: ")
+    print("CREATING A NEW PRODUCT:")
     print("-----------------------------------")
     print(new_product)
     all_products.append(new_product)
@@ -110,8 +110,12 @@ def create_product(new_product, all_products):
 def update_product():
     print("UPDATING A PRODUCT") #TODO: update a given product
 
-def destroy_product():
-    print("DESTROYING A PRODUCT") #TODO: destroy a given product
+def destroy_product(product, all_products):
+    print("-----------------------------------")
+    print("DESTROYING A PRODUCT:")
+    print("-----------------------------------")
+    print(product)
+    del all_products[all_products.index(product)]
 
 #
 # SCRIPT INVOCATION
@@ -154,7 +158,12 @@ def run():
         update_product()
 
     elif operation == "Destroy":
-        destroy_product()
+        try:
+            product_id = input("OK. Please specify the product's identifier: ")
+            product = find_product(product_id, products)
+            destroy_product(product, products)
+        except ValueError as e: product_not_found(product_id)
+        except IndexError as e: product_not_found(product_id)
 
     elif operation == "Reset":
         reset_products_file()
