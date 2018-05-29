@@ -48,7 +48,9 @@ def run():
     products = read_products_from_file()
 
     # Then, prompt the user to select an operation...
-    print(menu(username="@some-user")) #TODO instead of printing, capture user input
+    my_menu = menu(username="@s2t2", products_count=len(products))
+    operation = input(my_menu)
+    print("YOU CHOSE", operation)
 
     # Then, handle selected operation: "List", "Show", "Create", "Update", "Destroy" or "Reset"...
     #TODO: handle selected operation
