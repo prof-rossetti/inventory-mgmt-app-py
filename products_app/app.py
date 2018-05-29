@@ -23,8 +23,11 @@ There are {products_count} products in the database.
 Please select an operation: """ # end of multi- line string. also using string interpolation
     return menu
 
+def product_not_found(product_id):
+    print(f"OOPS. There are no products matching the identifier '{product_id}'. Try listing products to see which ones exist.")
+
 #
-# CSV FILE OPERATIONS
+# CSV FILE / DATABASE OPERATIONS
 #
 
 def read_products_from_file(filename="products.csv"):
@@ -51,6 +54,11 @@ def reset_products_file(filename="products.csv", from_filename="products_default
     products = read_products_from_file(from_filename)
     write_products_to_file(filename, products)
 
+def find_product(product_id, all_products):
+    matching_products = [p for p in all_products if int(p["id"]) == int(product_id)]
+    matching_product = matching_products[0]
+    return matching_product
+
 #
 # CRUD OPERATIONS
 #
@@ -63,8 +71,11 @@ def list_products(products):
     for product in products:
         print(" #" + str(product["id"]) + ": " + product["name"])
 
-def show_product():
-    print("SHOWING A PRODUCT") #TODO: show a given product
+def show_product(product):
+    print("-----------------------------------")
+    print("SHOWING A PRODUCT:")
+    print("-----------------------------------")
+    print(product)
 
 def create_product():
     print("CREATING A NEW PRODUCT") #TODO: create a new product
@@ -92,7 +103,12 @@ def run():
     if operation == "List":
         list_products(products)
     elif operation == "Show":
-        show_product()
+        try:
+            product_id = input("OK. Please specify the product's identifier: ")
+            product = find_product(product_id, products)
+            show_product(product)
+        except ValueError as e: product_not_found(product_id)
+        except IndexError as e: product_not_found(product_id)
     elif operation == "Create":
         create_product()
     elif operation == "Update":
