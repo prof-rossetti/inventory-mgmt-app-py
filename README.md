@@ -6,12 +6,18 @@ Uses a CSV file datastore.
 
 ## Installation
 
-Fork this repository under your own control. Then download your forked version of this repository (or "clone" it if you are using command-line git).
+First, "fork" [this upstream repository](https://github.com/prof-rossetti/inventory-mgmt-app-py) under your own control.
 
-Then navigate into the root directory:
+Then download your forked version of this repository using the GitHub.com online interface or the Git command-line interface. If you are using command-line Git, you can download it by "cloning" it:
 
 ```sh
-cd path/to/inventory-mgmt-app/
+git clone https://github.com/YOUR_USERNAME/inventory-mgmt-app-py.git
+```
+
+After downloading your forked repository, navigate into its root directory:
+
+```sh
+cd path/to/inventory-mgmt-app-py/
 ```
 
 > NOTE: all commands in this document assume you are running them from this root directory.
