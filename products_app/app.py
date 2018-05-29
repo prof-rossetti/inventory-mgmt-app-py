@@ -47,7 +47,7 @@ def run():
     #TODO: handle selected operation
 
     # Finally, save products to file so they persist after script is done...
-    overwrite_products_file("products.csv")
+    write_products_to_file("products.csv")
 
 # only prompt the user for input if this script is run from the command-line
 # this allows us to import and test this application's component functions
