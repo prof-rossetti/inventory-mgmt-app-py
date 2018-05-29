@@ -38,7 +38,7 @@ def reset_products_file(filename="products.csv", from_filename="products_default
 
 def run():
     # First, read products from file...
-    products = read_products_from_file("products.csv")
+    products = read_products_from_file()
 
     # Then, prompt the user to select an operation...
     print(menu(username="@some-user")) #TODO instead of printing, capture user input
@@ -47,7 +47,7 @@ def run():
     #TODO: handle selected operation
 
     # Finally, save products to file so they persist after script is done...
-    write_products_to_file("products.csv")
+    write_products_to_file(products=products)
 
 # only prompt the user for input if this script is run from the command-line
 # this allows us to import and test this application's component functions
