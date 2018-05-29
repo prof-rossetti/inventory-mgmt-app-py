@@ -1,6 +1,10 @@
 import csv
 import os
 
+#
+# USER INTERFACE
+#
+
 def menu(username="@prof-rossetti", products_count=100):
     # this is a multi-line string, also using preceding `f` for string interpolation
     menu = f"""
@@ -19,9 +23,13 @@ def menu(username="@prof-rossetti", products_count=100):
     Please select an operation: """ # end of multi- line string. also using string interpolation
     return menu
 
+#
+# CSV FILE OPERATIONS
+#
+
 def read_products_from_file(filename="products.csv"):
     filepath = os.path.join(os.path.dirname(__file__), "db", filename)
-    print(f"READING PRODUCTS FROM FILE: '{filepath}'")
+    #print(f"READING PRODUCTS FROM FILE: '{filepath}'")
     products = []
     with open(filepath, "r") as csv_file:
         reader = csv.DictReader(csv_file)
@@ -31,7 +39,7 @@ def read_products_from_file(filename="products.csv"):
 
 def write_products_to_file(filename="products.csv", products=[]):
     filepath = os.path.join(os.path.dirname(__file__), "db", filename)
-    print(f"OVERWRITING CONTENTS OF FILE: '{filepath}' \n ... WITH {len(products)} PRODUCTS")
+    #print(f"OVERWRITING CONTENTS OF FILE: '{filepath}' \n ... WITH {len(products)} PRODUCTS")
     with open(filepath, "w") as csv_file:
         writer = csv.DictWriter(csv_file, fieldnames=["id", "name", "aisle", "department", "price"])
         writer.writeheader()
@@ -43,6 +51,29 @@ def reset_products_file(filename="products.csv", from_filename="products_default
     products = read_products_from_file(from_filename)
     write_products_to_file(filename, products)
 
+#
+# CRUD OPERATIONS
+#
+
+def list_products():
+    print("LISTING PRODUCTS") #TODO: list products
+
+def show_product():
+    print("SHOWING A PRODUCT") #TODO: show a given product
+
+def create_product():
+    print("CREATING A NEW PRODUCT") #TODO: create a new product
+
+def update_product():
+    print("UPDATING A PRODUCT") #TODO: update a given product
+
+def destroy_product():
+    print("DESTROYING A PRODUCT") #TODO: destroy a given product
+
+#
+# SCRIPT INVOCATION
+#
+
 def run():
     # First, read products from file...
     products = read_products_from_file()
@@ -50,10 +81,23 @@ def run():
     # Then, prompt the user to select an operation...
     my_menu = menu(username="@s2t2", products_count=len(products))
     operation = input(my_menu)
-    print("YOU CHOSE", operation)
 
     # Then, handle selected operation: "List", "Show", "Create", "Update", "Destroy" or "Reset"...
-    #TODO: handle selected operation
+    operation = operation.title() # normalize capitalization for more user-friendly comparisons, enables "LIST" and "list" and "List" to all work
+    if operation == "List":
+        list_products()
+    elif operation == "Show":
+        show_product()
+    elif operation == "Create":
+        create_product()
+    elif operation == "Update":
+        update_product()
+    elif operation == "Destroy":
+        destroy_product()
+    elif operation == "Reset":
+        reset_products_file()
+    else:
+        print("Oh, sorry, didn't recognize that operation. Please try again.")
 
     # Finally, save products to file so they persist after script is done...
     write_products_to_file(products=products)
