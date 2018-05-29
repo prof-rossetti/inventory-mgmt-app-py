@@ -23,13 +23,20 @@ def read_products_from_file(filename="products.csv"):
     filepath = os.path.join(os.path.dirname(__file__), "db", filename)
     print(f"READING PRODUCTS FROM FILE: '{filepath}'")
     products = []
-    #TODO: open the file and populate the products list with product dictionaries
+    with open(filepath, "r") as csv_file:
+        reader = csv.DictReader(csv_file)
+        for ordered_dict in reader:
+            products.append(dict(ordered_dict))
     return products
 
 def write_products_to_file(filename="products.csv", products=[]):
     filepath = os.path.join(os.path.dirname(__file__), "db", filename)
     print(f"OVERWRITING CONTENTS OF FILE: '{filepath}' \n ... WITH {len(products)} PRODUCTS")
-    #TODO: open the file and write a list of dictionaries. each dict should represent a product.
+    with open(filepath, "w") as csv_file:
+        writer = csv.DictWriter(csv_file, fieldnames=["id", "name", "aisle", "department", "price"])
+        writer.writeheader()
+        for product in products:
+            writer.writerow(product)
 
 def reset_products_file(filename="products.csv", from_filename="products_default.csv"):
     print("RESETTING DEFAULTS")
