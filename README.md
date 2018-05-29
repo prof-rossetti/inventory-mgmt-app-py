@@ -45,3 +45,7 @@ python3 products_app/app.py
 # All others:
 python products_app/app.py
 ```
+
+## [License](/LICENSE.md)
+
+Students, please pay attention to the license terms.
