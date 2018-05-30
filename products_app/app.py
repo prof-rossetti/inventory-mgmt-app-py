@@ -107,8 +107,11 @@ def create_product(new_product, all_products):
     print(new_product)
     all_products.append(new_product)
 
-def update_product():
-    print("UPDATING A PRODUCT") #TODO: update a given product
+def update_product(product):
+    print("-----------------------------------")
+    print("UPDATED A PRODUCT:")
+    print("-----------------------------------")
+    print(product)
 
 def destroy_product(product, all_products):
     print("-----------------------------------")
@@ -139,23 +142,42 @@ def run():
         try:
             product_id = input("OK. Please specify the product's identifier: ")
             product = find_product(product_id, products)
-            show_product(product)
-        except ValueError as e: product_not_found(product_id)
-        except IndexError as e: product_not_found(product_id)
+        except ValueError as e:
+            product_not_found(product_id)
+            return
+        except IndexError as e:
+            product_not_found(product_id)
+            return
+        show_product(product)
 
     elif operation == "Create":
         new_product = {}
         new_product["id"] = auto_incremented_product_id(products)
         for attribute_name in editable_product_attributes():
             new_val = input(f"OK. Please input the product's '{attribute_name}': ")
+            if attribute_name == "price" and is_valid_price(new_val) == False:
+                product_price_not_valid()
+                return
             new_product[attribute_name] = new_val
-        if is_valid_price(new_product["price"]):
-            create_product(new_product, products)
-        else:
-            product_price_not_valid()
+        create_product(new_product, products)
 
     elif operation == "Update":
-        update_product()
+        try:
+            product_id = input("OK. Please specify the product's identifier: ")
+            product = find_product(product_id, products)
+        except ValueError as e:
+            product_not_found(product_id)
+            return
+        except IndexError as e:
+            product_not_found(product_id)
+            return
+        for attribute_name in editable_product_attributes():
+            new_val = input(f"OK. What is the product's new '{attribute_name}' (currently: '{product[attribute_name]}'): ")
+            if attribute_name == "price" and is_valid_price(new_val) == False:
+                product_price_not_valid()
+                return
+            product[attribute_name] = new_val
+        update_product(product)
 
     elif operation == "Destroy":
         try:
