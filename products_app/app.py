@@ -23,8 +23,8 @@ There are {products_count} products in the database.
 Please select an operation: """ # end of multi- line string. also using string interpolation
     return menu
 
-def product_not_found(product_id):
-    print(f"OOPS. There are no products matching the identifier '{product_id}'. Try listing products to see which ones exist.")
+def product_not_found():
+    print("OOPS. Couldn't find a product with that identifier. Try listing products to see which ones exist.")
 
 def product_price_not_valid():
     print(f"OOPS. That product price is not valid. Expecting a price like 4.99 or 0.77. Please try again.")
@@ -81,6 +81,14 @@ def is_valid_price(my_price):
         return True
     except Exception as e:
         return False
+
+def user_selected_product(all_products):
+    try:
+        product_id = input("OK. Please specify the product's identifier: ")
+        product = find_product(product_id, all_products)
+        return product
+    except ValueError as e: return None
+    except IndexError as e: return None
 
 #
 # CRUD OPERATIONS
@@ -139,16 +147,9 @@ def run():
         list_products(products)
 
     elif operation == "Show":
-        try:
-            product_id = input("OK. Please specify the product's identifier: ")
-            product = find_product(product_id, products)
-        except ValueError as e:
-            product_not_found(product_id)
-            return
-        except IndexError as e:
-            product_not_found(product_id)
-            return
-        show_product(product)
+        product = user_selected_product(products)
+        if product == None: product_not_found()
+        else: show_product(product)
 
     elif operation == "Create":
         new_product = {}
@@ -162,30 +163,21 @@ def run():
         create_product(new_product, products)
 
     elif operation == "Update":
-        try:
-            product_id = input("OK. Please specify the product's identifier: ")
-            product = find_product(product_id, products)
-        except ValueError as e:
-            product_not_found(product_id)
-            return
-        except IndexError as e:
-            product_not_found(product_id)
-            return
-        for attribute_name in editable_product_attributes():
-            new_val = input(f"OK. What is the product's new '{attribute_name}' (currently: '{product[attribute_name]}'): ")
-            if attribute_name == "price" and is_valid_price(new_val) == False:
-                product_price_not_valid()
-                return
-            product[attribute_name] = new_val
-        update_product(product)
+        product = user_selected_product(products)
+        if product == None: product_not_found()
+        else:
+            for attribute_name in editable_product_attributes():
+                new_val = input(f"OK. What is the product's new '{attribute_name}' (currently: '{product[attribute_name]}'): ")
+                if attribute_name == "price" and is_valid_price(new_val) == False:
+                    product_price_not_valid()
+                    return
+                product[attribute_name] = new_val
+            update_product(product)
 
     elif operation == "Destroy":
-        try:
-            product_id = input("OK. Please specify the product's identifier: ")
-            product = find_product(product_id, products)
-            destroy_product(product, products)
-        except ValueError as e: product_not_found(product_id)
-        except IndexError as e: product_not_found(product_id)
+        product = user_selected_product(products)
+        if product == None: product_not_found()
+        else: destroy_product(product, products)
 
     elif operation == "Reset":
         reset_products_file()
